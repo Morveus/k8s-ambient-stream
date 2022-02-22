@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: icecast-test
+  namespace: streamers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      icecast: streamer
+  template:
+    metadata:
+      labels:
+        icecast: streamer
+    spec:
+      containers:
+      - name: icecast
+        image: infiniteproject/icecast
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: icecast-entrypoint
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    icecast: streamer
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30080
