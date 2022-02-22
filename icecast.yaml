@@ -5,10 +5,13 @@ metadata:
   namespace: streamers
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      icecast: streamer
   template:
     metadata:
       labels:
-        service: icecast
+        icecast: streamer
     spec:
       containers:
       - name: icecast
@@ -21,6 +24,8 @@ metadata:
   namespace: default
 spec:
   type: NodePort
+  selector:
+    icecast: streamer
   ports:
   - port: 8080
     targetPort: 8080
